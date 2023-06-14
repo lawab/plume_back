@@ -63,6 +63,27 @@ const getCourseById = async (courseId, token) =>{
     
 }
 
+const getClasseById = async (classeId, token) =>{
+    console.log("*******SUBJECT ID: "+classeId);
+    console.log("*******URL: "+config.url_classe+`/fetch/one/${classeId}`);
+    try{
+        const classe = await axios.get(config.url_classe+`/fetch/one/${classeId}`,
+                        {
+                            headers: {
+                                authorization: `Bearer ${token}`
+                            }
+                        });
+        console.log("CLASSEEE : ")
+        console.log(classe.data);
+        return classe;
+    }
+    catch(err ){
+        console.log(err.data);
+        return err;
+    }
+    
+}
+
 const addCourseToSubjectById = async (subjectId, courseId) =>{
     console.log("*******SUBJECT ID: "+subjectId);
     console.log("*******COURSE ID: "+courseId);
@@ -113,5 +134,6 @@ module.exports ={
     getSubjectById,
     addCourseToSubjectById,
     getCourseById,
-    addCourseToUserById
+    addCourseToUserById,
+    getClasseById
 }

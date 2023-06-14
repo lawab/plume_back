@@ -29,6 +29,10 @@ courseRouter.patch('/delete/:courseId', auth.authmiddleware, controller.deleteCo
 courseRouter.patch('/addClass/:courseId/:classeId', controller.addClassToCourse);
 //**************************************** *// 
 
+//************REMOVE CLASS TO COURSE********************
+courseRouter.patch('/removeClass/:courseId/:classeId', controller.removeClassToCourse);
+//**************************************** *// 
+
 //************GET A CATEGORY********************
 courseRouter.get('/fetch/one/:courseId', auth.authmiddleware, controller.getCourse);
 //**************************************** *// 

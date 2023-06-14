@@ -42,7 +42,7 @@ const getCourseById = async (courseId) =>{
 //Get Course by Subject Id
 const getCourseSubjectById = async (subjectId) =>{
     const courses = await Course.find({subject:subjectId})
-            .populate({path: 'sections', populate: {path: 'modules'}});
+            .populate({path: 'sections', populate: {path: 'modules', populate: {path: 'homeworks'}}});
     return courses;
 }
 

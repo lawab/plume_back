@@ -284,6 +284,37 @@ const addClassToCourse = async (req, res) =>{
     }
 }
 
+//remove Classe from Course in Data Base
+const removeClassToCourse = async (req, res) =>{
+   
+    const course = await courseService.getCourseById(req.params.courseId);
+    if(!course){
+        return res.status(401).json({"message" : "Course not found!!!"});
+    }
+    const classe = await api_consumer.getClasseById(req.params.classeId)
+    if(!classe){
+        return res.status(401).json({"message" : "Class not found!!!"});
+    }
+    try{
+        const couseUpdated = await assignmentService.removeClassToCourseById(req.params.courseId, req.params.classeId);
+        if(!couseUpdated){
+            return res.status(401).json({"message" : "Class not removed from Course"});
+        }
+        // const userUpdated = await api_consumer.removeClassToUserById(req.params.userId)
+        // if(!userUpdated){
+        //     return res.status(401).json({"message" : "Class not removed from User"});
+        // }
+        //console.log(classUpdated)
+        //body.creator = creator;
+        //const classe = await classeService.updateClassById(req.params.classId, body);
+        res.status(200).json({"message" : "Course updatedted successfuly!!!"});
+    }
+    catch(err){
+        console.log(err)
+        res.status(500).json({"message" : "Error encounterd creating classe!!!"});
+    }
+}
+
 //EXPORTS ALL CONTROLLER'S SERVICES
 module.exports = {
     createCourse,
@@ -295,6 +326,7 @@ module.exports = {
     deleteCourse,
     assignToUser,
     addClassToCourse,
+    removeClassToCourse,
     getModuleCourse,
     getCourseUser
 }

@@ -101,29 +101,7 @@ const assignUserToClass = async (req, res) =>{
     }
 }
 
-//Assign User into Classe in Data Base
-const unAssignCourseToClass = async (req, res) =>{
-   
-    const classe = await Classe.findById(req.params.classId);
-    if(!classe){
-        return res.status(401).json({"message" : "Class not found!!!"});
-    }
-    try{
-        const courseUpdated = await api_consumer.addClassToCourseById(req.params.courseId, classe);
-        if(!courseUpdated){
-            return res.status(401).json({"message" : "Class not added to a User"});
-        }
-        const classeUpdated = await assignmentService.removeCourseToClassById(req.params.classId, req.params.courseId)
-        console.log(classeUpdated)
-        //body.creator = creator;
-        //const classe = await classeService.updateClassById(req.params.classId, body);
-        res.status(200).json({"message" : "Classe updatedted successfuly!!!"});
-    }
-    catch(err){
-        console.log(err)
-        res.status(500).json({"message" : "Error encounterd creating classe!!!"});
-    }
-}
+
 
 //Assign User into Classe in Data Base
 const assignCourseToClass = async (req, res) =>{
@@ -148,6 +126,72 @@ const assignCourseToClass = async (req, res) =>{
         res.status(500).json({"message" : "Error encounterd creating classe!!!"});
     }
 }
+
+//unAssign Course into Classe in Data Base
+const unAssignCourseToClass = async (req, res) =>{
+   
+    const classe = await Classe.findById(req.params.classId);
+    if(!classe){
+        return res.status(401).json({"message" : "Class not found!!!"});
+    }
+    const course = await api_consumer.getCourseById(
+      req.params.courseId,
+      req.token
+    );
+    if(!course){
+        return res.status(401).json({"message" : "Course not found!!!"});
+    }
+    try{
+        const classUpdated = await assignmentService.removeCourseToClassById(req.params.classId, req.params.courseId);
+        if(!classUpdated){
+            return res.status(401).json({"message" : "User not removed from Class"});
+        }
+        const userUpdated = await api_consumer.removeClassToCourseById(req.params.courseId, req.params.classId)
+        if(!userUpdated){
+            return res.status(401).json({"message" : "Class not removed from User"});
+        }
+        console.log(classUpdated)
+        //body.creator = creator;
+        //const classe = await classeService.updateClassById(req.params.classId, body);
+        res.status(200).json({"message" : "Classe updatedted successfuly!!!"});
+    }
+    catch(err){
+        console.log(err)
+        res.status(500).json({"message" : "Error encounterd creating classe!!!"});
+    }
+}
+
+//unAssign User into Classe in Data Base
+const unAssignUserToClass = async (req, res) =>{
+   
+    const classe = await Classe.findById(req.params.classId);
+    if(!classe){
+        return res.status(401).json({"message" : "Class not found!!!"});
+    }
+    const user = await api_consumer.getUserById(req.params.userId)
+    if(!user){
+        return res.status(401).json({"message" : "User not found!!!"});
+    }
+    try{
+        const classUpdated = await assignmentService.removeUserToClassById(req.params.classId, req.params.userId);
+        if(!classUpdated){
+            return res.status(401).json({"message" : "User not removed from Class"});
+        }
+        const userUpdated = await api_consumer.removeClassToUserById(req.params.userId)
+        if(!userUpdated){
+            return res.status(401).json({"message" : "Class not removed from User"});
+        }
+        console.log(classUpdated)
+        //body.creator = creator;
+        //const classe = await classeService.updateClassById(req.params.classId, body);
+        res.status(200).json({"message" : "Classe updatedted successfuly!!!"});
+    }
+    catch(err){
+        console.log(err)
+        res.status(500).json({"message" : "Error encounterd creating classe!!!"});
+    }
+}
+
 
 //Get a Classe in Data Base
 const getClasse = async (req, res) =>{
@@ -198,11 +242,13 @@ const deleteClass = async (req, res) =>{
 
 //EXPORTS ALL CONTROLLER'S SERVICES
 module.exports = {
-    createClasse,
-    updateClasse,
-    getClasse,
-    getClasses,
-    deleteClass,
-    assignUserToClass,
-    assignCourseToClass
-}
+  createClasse,
+  updateClasse,
+  getClasse,
+  getClasses,
+  deleteClass,
+  assignUserToClass,
+  assignCourseToClass,
+  unAssignUserToClass,
+  unAssignCourseToClass,
+};

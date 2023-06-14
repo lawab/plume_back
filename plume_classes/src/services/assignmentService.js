@@ -120,22 +120,22 @@ const getAssignmentsByID = async (classeId) => {
 const removeUserToClassById = async(classId, userId) => {
 
   const classe = await Class.findById(classId);
-  console.log(classe);
+    if(!classe){
+        return res.status(401).json({"message" : "Course not exist!!!"})
+    }
+    if(classe.students){
+        console.log("classe students******");
+        let students = classe.students;
+        for(let i = 0; i < students.length; i++){
+            if(students[i].user._id == userId){
+                students.splice(i, 1);
+            }
+        }
 
-  //const course = await Course.findById(courseId);
-  //console.log(course);
-  if(classe?.students){
-      console.log("user classes******");
-      let students = classe.students;
-      for(let i = 0; i < students.length; i++){
-          if(students[i].user._id == userId){
-              courses.splice(i,1);
-          }
-      }
-
-  }
-  classe.save();
-  return classe;
+    }
+   
+    classe.save();
+    return classe;
 }
   
   

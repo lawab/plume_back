@@ -25,7 +25,11 @@ userRouter.patch('/addClass/:userId', controller.addClassToUser);
 //**************************************** *// 
 
 //************ASSIGN PARENT TO STUDENT********************
-userRouter.patch('/assignParent/:parentId/:studetId', controller.assignParentToStudent);
+userRouter.patch('/assignParent/:parentId/:studentId', controller.assignParentToStudent);
+//**************************************** *// 
+
+//************ASSIGN PARENT TO STUDENT********************
+userRouter.patch('/removeClass/:userId', controller.removeClassToUser);
 //**************************************** *// 
 
 //************DELETE USER********************

@@ -75,6 +75,20 @@ const addClassToUser = async (req, res) =>{
     }
 }
 
+//Move Class To User in Data Base
+const removeClassToUser = async (req, res) =>{
+    
+    try{
+        const user = await userService.removeClassToUserById(req.params.userId);
+        console.log(user)
+        res.status(200).json(user);
+    }
+    catch(err){
+        console.log(err)
+        res.status(500).json(err);
+    }
+}
+
 //Get a User in Data Base
 const getUser = async (req, res) =>{
     
@@ -134,5 +148,6 @@ module.exports = {
     getUsers,
     deleteUser,
     addClassToUser,
-    assignParentToStudent
+    assignParentToStudent,
+    removeClassToUser
 }

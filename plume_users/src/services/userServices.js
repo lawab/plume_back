@@ -13,7 +13,8 @@ const createUser = async (userBody) =>{
 //Get all users
 const getUsers = async () =>{
 
-    const users = await User.find();
+    const users = await User.find()
+            .populate({path: 'children'});
     console.log(users);
     return users;
     // .then((err, data) =>{
@@ -38,8 +39,9 @@ const updateUserById = async (userId, userBody) =>{
 
 //Assign Student to Parents by Id
 const assignParentToStudentById = async (parentId, studentId) =>{
-
+    console.log("PARENT ID####: ",parentId)
     const student = await User.findById(studentId)
+    console.log("STUDENT ID####: ",studentId)
     student.parentOfStudent = parentId
     student.save()
     const parent = await User.findById(parentId)
@@ -51,8 +53,10 @@ const assignParentToStudentById = async (parentId, studentId) =>{
 //Get User by Id
 const getUserById = async (userId) =>{
 
-    const user = await User.findById(userId).
-            populate({path: 'parentOfStudent', populate: {path: 'children'}});
+    const user = await User.findById(userId)
+            .populate({path: 'children'})
+            .populate({path: 'parentOfStudent'});
+            console.log(user)
     return user;
 }
 
@@ -80,6 +84,18 @@ const addClassToUserById = async (userId, classe) =>{
     }
     return user;
 }
+
+const removeClassToUserById = async(userId) => {
+
+    const user = await User.findById(userId);
+      if(!user){
+          return res.status(401).json({"message" : "course not exist!!!"})
+      }
+      user.class = null
+    
+      user.save();
+      return user;
+  }
 
 const unAssignByUserIdByCourseId = async(userId, courseId) => {
 
@@ -122,5 +138,6 @@ module.exports ={
     getUserById,
     deleteUserById,
     addClassToUserById,
-    assignParentToStudentById
+    assignParentToStudentById,
+    removeClassToUserById
 }

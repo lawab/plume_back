@@ -25,6 +25,14 @@ classRouter.patch('/delete/:classId', auth.authmiddleware, controller.deleteClas
 classRouter.patch('/assignUser/:classId/:userId', auth.authmiddleware, controller.assignUserToClass);
 //**************************************** *// 
 
+//************UNASSIGN USER TO A ClASS********************
+classRouter.patch('/unAssignUser/:classId/:userId', auth.authmiddleware, controller.unAssignUserToClass);
+//**************************************** *// 
+
+//********UNASSIGN COURSE TO A ClASS********************
+classRouter.patch('/unAssignCourse/:classId/:courseId', auth.authmiddleware, controller.unAssignCourseToClass);
+//**************************************** *// 
+
 //************ASSIGN COURSE TO A ClASS********************
 classRouter.patch('/assignCourse/:classId/:courseId', auth.authmiddleware, controller.assignCourseToClass);
 //**************************************** *// 

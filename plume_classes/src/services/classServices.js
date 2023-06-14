@@ -1,6 +1,6 @@
 
 const Classe = require('../models/class');
-
+const api_consumer = require('../services/api_consumer')
 
 //Create Class
 const createClass = async (classBody) =>{
@@ -64,6 +64,39 @@ const getAllClass = async () =>{
     return classes;
 }
 
+
+//Assign User into Classe in Data Base
+const unAssignCourseToClass = async (classId, courseId) =>{
+   
+    const classe = await Classe.findById(classId);
+    if(!classe){
+        return res.status(401).json({"message" : "classe not exist!!!"})
+    }
+    if(classe.courses){
+        console.log("classe courses******");
+        let courses = classe.courses;
+        for(let i = 0; i < courses.length; i++){
+            if(courses[i].course._id == courseId){
+                courses.splice(i,1);
+            }
+        }
+
+    }
+    const course = api_consumer
+    if(course.assignments){
+        console.log("courses**********");
+        let assignments = course.assignments;
+        for (let i = 0; i < assignments.length; i++) {
+            if(assignments[i].userId == userId){
+                assignments.splice(i,1);
+            }
+            
+        }
+    }
+    classe.save();
+    course.save();
+    return {user, course};
+}
 
 
 

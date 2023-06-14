@@ -79,10 +79,32 @@ const getAssignmentsByID = async (courseId) => {
     return course;
   };
 
+
+  const removeClassToCourseById = async(courseId, classId) => {
+
+    const course = await Course.findById(courseId);
+      if(!course){
+          return res.status(401).json({"message" : "course not exist!!!"})
+      }
+      if(course.classes){
+          console.log("classe courses******");
+          let classes = course.classes;
+          for(let i = 0; i < classes.length; i++){
+              if(classes[i].classe == classId){
+                classes.splice(i,1);
+              }
+          }
+  
+      }
+     
+      classe.save();
+      return course;
+  }
   
   
   module.exports = {
     getAssignmentsByID,
     updateAssignmentsByID,
     addAssignementById,
+    removeClassToCourseById
   };
