@@ -13,7 +13,7 @@ const createPresence = async (req, res) =>{
     const body = JSON.parse(req.headers.body);
     try{
         const user = await api_consumer.getUserById(body.creator, req.token);
-        console.log(user)
+        console.log(user.data)
         if(!user){
             return res.status(401).json({"message" : "User not authenticated!!!"});
         }
@@ -27,7 +27,7 @@ const createPresence = async (req, res) =>{
         }
         body.creator = creator;
         const user1 = await api_consumer.getUserById(body.studentId, req.token);
-        console.log(user);
+        console.log(user1.data);
         if (!user1) {
           return res.status(401).json({ message: "Student not authenticated!!!" });
         }

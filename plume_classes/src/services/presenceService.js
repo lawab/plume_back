@@ -5,7 +5,7 @@ const api_consumer = require('./api_consumer')
 
 //Create Presence
 const createPresence = async (presenceBody) =>{
-    console.log("presence services")
+    console.log("presence services****************")
     console.log(presenceBody)
     const presences = await Presence.find()
     const found = false
@@ -17,6 +17,7 @@ const createPresence = async (presenceBody) =>{
         presences[i].classeId == presenceBody.classeId &&
         presences[i].courseId == presenceBody.courseId
       ) {
+        console.log("##########****** FOUNDEDDDDD *****************")
         if (presences[i].presences) {
           const calls = presences[i].presences;
           let j = 0;
@@ -42,7 +43,7 @@ const createPresence = async (presenceBody) =>{
     const newPresence = {
       week: presenceBody.week,
       classeId: presenceBody.classeId,
-      courseId: presenceBody.course,
+      courseId: presenceBody.courseId,
       presences: [
         {
           student: presenceBody.student,
