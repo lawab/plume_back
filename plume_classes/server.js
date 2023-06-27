@@ -10,6 +10,7 @@ const connection = require('./db');
 
 //import routes
 const classRouter = require('./src/routes/classRoute');
+const presenceRouter = require("./src/routes/presenceRoute");
 //const { db } = require("./src/models/category");
 
 //bodyParser
@@ -27,6 +28,8 @@ app.use(cors());
 
 // All router app
 app.use('/api/classes', classRouter);
+// All router app
+app.use("/api/presences", presenceRouter);
 
 //Public files
 app.use(express.static(path.join(__dirname, "public")));

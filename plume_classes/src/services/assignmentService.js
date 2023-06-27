@@ -91,6 +91,23 @@ const getAssignmentsByID = async (classeId) => {
     } else {
       classe.courses = [{ course: course, beginDate: Date.now() }];
     }
+    if (classe.teachers) {
+      let found = false 
+      let i = 0
+      const teachers = classe.teachers
+      while (found == false && i < teachers.length) {
+        if (teachers.teacher._id == course.creator._id) {
+          found == true
+        }
+        i++
+      }
+      if (found == false) {
+        classe.teachers.push({teacher: course.creator, beginDate: Date.now()});
+      }
+      
+    } else {
+      classe.teachers = [{ teacher: course.creator, beginDate: Date.now() }];
+    }
     console.log("*****addAssignmentById----------passed");
     await classe.save();
     return classe

@@ -19,6 +19,14 @@ const ClassSchemaObject = {
       },
     ],
   },
+  teachers: {
+    type: [
+      {
+        teacher: { type: Object },
+        beginDate: { type: Date, default: Date.now() },
+      },
+    ],
+  },
   homeworks: { type: [{ type: Object }] },
   courses: {
     type: [

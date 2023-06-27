@@ -111,7 +111,7 @@ const assignUserToClass = async (req, res) =>{
 
 
 
-//Assign User into Classe in Data Base
+//Assign Course into Classe in Data Base
 const assignCourseToClass = async (req, res) =>{
    
     const classe = await Classe.findById(req.params.classId);
@@ -123,6 +123,10 @@ const assignCourseToClass = async (req, res) =>{
         if(!courseUpdated){
             return res.status(401).json({"message" : "Class not added to a User"});
         }
+        console.log("TEACHERRRRRRRRRRRR: ")
+        console.log(courseUpdated.data)
+        // const course = courseUpdated.data
+        // const teacher = course.creator
         const classeUpdated = await assignmentService.addCourseToClassById(req.params.classId, courseUpdated.data)
         console.log(classeUpdated)
         //body.creator = creator;
