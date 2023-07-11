@@ -37,7 +37,7 @@ userRouter.patch('/delete/:userId', auth.authmiddleware, controller.deleteUser);
 //**************************************** *// 
 
 //************GET A CATEGORY********************
-userRouter.get('/fetch/one/:userId', auth.authmiddleware, controller.getUser);
+userRouter.get('/fetch/one/:userId', controller.getUser);
 //**************************************** *// 
 
 //************GET ALL CATEGORIES********************

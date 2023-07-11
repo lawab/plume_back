@@ -12,7 +12,7 @@ const getUserById = async (userId, token) =>{
                             }
                         });
         console.log("USERRRR: ")
-        console.log(user.data);
+        //console.log(user.data);
         return user;
     }
     catch(err ){

@@ -8,6 +8,7 @@ const ForeignModel = require('../../../globalModels/foreignModels');
 //Presence Schema Object
 const PresenceSchemaObject = {
   week: { type: String },
+  year: { type: String, default: '2023'},
   classeId: { type: Schema.ObjectId, ref: "Class" },
   courseId: { type: Schema.ObjectId },
   presences: {
@@ -31,12 +32,12 @@ const PresenceSchemaObject = {
         },
         jeudi: {
           date: { type: Date, default: null },
-          presence: { type: Boolean, default: true },
+          presence: { type: Boolean, default: false },
           holiday: { type: Boolean, default: true },
         },
         vendredi: {
           date: { type: Date, default: null },
-          presence: { type: Boolean, default: true },
+          presence: { type: Boolean, default: false },
           holiday: { type: Boolean, default: true },
         },
       },

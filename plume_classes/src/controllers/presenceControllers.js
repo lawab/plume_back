@@ -10,10 +10,13 @@ const Classe = require("../models/class");
 
 //Create Classe in Data Base
 const createPresence = async (req, res) =>{
-    const body = JSON.parse(req.headers.body);
-    try{
+    
+  //const body = req.body
+  //console.log(body)
+  try {
+      const body = JSON.parse(req.headers.body);
         const user = await api_consumer.getUserById(body.creator, req.token);
-        console.log(user.data)
+        //console.log(user.data)
         if(!user){
             return res.status(401).json({"message" : "User not authenticated!!!"});
         }
@@ -27,9 +30,9 @@ const createPresence = async (req, res) =>{
         }
         body.creator = creator;
         const user1 = await api_consumer.getUserById(body.studentId, req.token);
-        console.log(user1.data);
+        //console.log(user1.data);
         if (!user1) {
-          return res.status(401).json({ message: "Student not authenticated!!!" });
+          return res.status(401).json({ message: "Student not found!!!" });
         }
         const student = {
           _id: user1.data._id,
@@ -59,7 +62,7 @@ const createPresence = async (req, res) =>{
 const getPresences = async (req, res) => {
   
   try {
-    const presences = await presenceService.getPresences()
+    const presences = await presenceService.getPresences(req.params.classeId, req.params.courseId,)
     res.status(200).json(presences)
   }
   catch (err) {
@@ -78,8 +81,9 @@ const getPresence = async (req, res) => {
 
 const createEmptyWeek = async (req, res) => {
   try {
-    const body = req.headers.body
-    const weekFound = await presenceService.getPresence(body.week)
+    //const body = req.headers.body
+    body = req.body;
+    const weekFound = await presenceService.getPresence(body);
     if (weekFound) {
       return res.status(401).json({message : "Week already exist!!!"})
     }

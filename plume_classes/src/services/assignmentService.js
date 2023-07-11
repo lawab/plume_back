@@ -96,7 +96,7 @@ const getAssignmentsByID = async (classeId) => {
       let i = 0
       const teachers = classe.teachers
       while (found == false && i < teachers.length) {
-        if (teachers.teacher._id == course.creator._id) {
+        if (teachers[i].teacher._id == course.creator._id) {
           found == true
         }
         i++

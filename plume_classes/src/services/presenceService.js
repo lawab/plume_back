@@ -1,64 +1,127 @@
 
-const presence = require('../models/presence');
 const Presence = require('../models/presence');
 const api_consumer = require('./api_consumer')
 
 //Create Presence
 const createPresence = async (presenceBody) =>{
-    console.log("presence services****************")
-    console.log(presenceBody)
-    const presences = await Presence.find()
-    const found = false
-    let i = 0
-  if (presences.length != 0) {
-    while (found == false && i < presences.length) {
-      if (
-        presences[i].week == presenceBody.week &&
-        presences[i].classeId == presenceBody.classeId &&
-        presences[i].courseId == presenceBody.courseId
-      ) {
-        console.log("##########****** FOUNDEDDDDD *****************")
-        if (presences[i].presences) {
-          const calls = presences[i].presences;
-          let j = 0;
-          while (found == false && j < calls.length) {
-            if (calls[i].student._id == presenceBody.student._id) {
-              calls[i].presenceBody.day = {
-                date: presenceBody.date,
-                presence: presenceBody.presence,
-                holiday: false,
-              };
-              found = true;
+    
+  const presence = await Presence.findOne({
+    week: presenceBody.week,
+    year: presenceBody.year,
+    classeId: presenceBody.classeId,
+    courseId: presenceBody.courseId
+  });
+  if (presence) {
+    console.log("presence services****************");
+    console.log(presence);
+    console.log("INSIDE FIRST IF****************");
+      if (presence.presences) {
+        console.log("INSIDE SECOND IF****************");
+        let found = false;
+        const calls = presence.presences;
+        let i = 0;
+        while (found == false && i < calls.length) {
+          console.log("*****LENGTH: ", calls.length);
+          console.log(calls[i])
+          if (calls[i].student._id == presenceBody.student._id) {
+            console.log("##########****** FOUNDEDDDDD STUDENTTTTTT *****************");
+            console.log(calls[i].student._id);
+            console.log("false", presenceBody.day);
+            console.log(calls[i]);
+            const day = presenceBody.day;
+            switch (day) {
+              case "lundi":
+                {
+                  calls[i].lundi = {
+                    date: presenceBody.date,
+                    presence: presenceBody.presence,
+                    holiday: false,
+                  }
+                }
+                break
+              case "mardi":
+                {
+                  calls[i].mardi = {
+                    date: presenceBody.date,
+                    presence: presenceBody.presence,
+                    holiday: false,
+                  }
+                }
+                break
+              case "mercredi":
+                {
+                  calls[i].mercredi = {
+                    date: presenceBody.date,
+                    presence: presenceBody.presence,
+                    holiday: false,
+                  }
+                }
+                break
+              case "jeudi":
+                {
+                  calls[i].jeudi = {
+                    date: presenceBody.date,
+                    presence: presenceBody.presence,
+                    holiday: false,
+                  }
+                }
+                break
+              case "vendredi":
+                {
+                  calls[i].vendredi = {
+                    date: presenceBody.date,
+                    presence: presenceBody.presence,
+                    holiday: false,
+                  }
+                }
+                break
             }
-            j++;
+            console.log("true");
+            found = true;
+            console.log("FOUND: ", found);
           }
+          i++;
+        }
+        if (found == false) {
+          let day = presenceBody.day
+          const newPresence = {
+            student: presenceBody.student,
+            [day]: {
+              date: presenceBody.date,
+              presence: presenceBody.presence,
+              holiday: false,
+            },
+          }
+          calls.push(newPresence)
         }
       }
-      i++
-      presences[i].save()
-      return presences[i]
-    }
+    presence.save();
+    return presence;
   }
   else {
+    const calls = {
+      student: presenceBody.student,
+      [presenceBody.day]: {
+              date: presenceBody.date,
+              presence: presenceBody.presence,
+              holiday: false,
+            },
+
+    }
     const newPresence = {
       week: presenceBody.week,
+      year: presenceBody.year,
       classeId: presenceBody.classeId,
       courseId: presenceBody.courseId,
-      presences: [
-        {
-          student: presenceBody.student,
-          lundi: {
-            date: presenceBody.date,
-            presence: presenceBody.presence,
-            holiday: false,
-          },
-        },
-      ],
-    };
-    const presence = await Presence.create(newPresence)
-    return presence
+      presences: [calls]
+    }
+    const presenceSaved = await Presence.create(newPresence)
+    return presenceSaved
   }
+  
+  
 }
+
 
 const createEmptyWeek = async (weekBody) => {
   const week = await Presence.create(weekBody)
@@ -66,18 +129,23 @@ const createEmptyWeek = async (weekBody) => {
 }
 
 //Get all presences
-const getPresences = async () =>{
-
-  const presences = await Presence.find()
-            .populate({path : 'classeId'})
-    return presences;
+const getPresences = async (classeId, courseId) => {
+  const presences = await Presence.find({
+    classeId: classeId,
+    courseId: courseId,
+  }).populate({ path: "classeId" });
+  return presences;
 };
 
 //Get all presences
-const getPresence = async (presenceId) =>{
+const getPresence = async (body) =>{
 
-  const presence = await Presence.findById(presenceId)
-            .populate({path : 'classeId'})
+  const presence = await Presence.findOne({
+    week: body.week,
+    year: body.year,
+    classeId: body.classeId,
+    courseId: body.courseId,
+  }).populate({ path: "classeId" });
     return presence;
 };
 

@@ -10,11 +10,11 @@ const upload = uploadFileService.uploadMiddleFile();
 
 
 //************CREATE CATEGORY********************
-presenceRouter.put('/create', auth.authmiddleware, controller.createPresence);
+presenceRouter.put('/create', controller.createPresence);
 //**************************************** *//  
 
 //************UPDATE CATEGORY********************
-presenceRouter.post('/createWeek', auth.authmiddleware, controller.createEmptyWeek);
+presenceRouter.post('/createWeek', controller.createEmptyWeek);
 //**************************************** *// 
 
 //************DELETE ClASS********************
@@ -42,7 +42,7 @@ presenceRouter.get('/fetch/one/:presenceId', auth.authmiddleware, controller.get
 //**************************************** *// 
 
 //************GET ALL CATEGORIES********************
-presenceRouter.get("/fetch/all", auth.authmiddleware, controller.getPresences);
+presenceRouter.get("/fetch/all/:classeId/:courseId", auth.authmiddleware, controller.getPresences);
 //**************************************** *//
 //Export route to be used on another place
 module.exports = presenceRouter;
