@@ -2,18 +2,19 @@ const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
 
-//Report Schema Object
-const ReportSchemaObject = {
+//Behavior Schema Object
+const BehaviorSchemaObject = {
   creator: { type: Schema.Types.ObjectId, ref: "User" },
+  gravity: { type: String },
   date: { type: Date, default: Date.now },
-  report: { type: String},
+  motif: { type: String },
   validated: { type: Boolean, default: false },
-  course: { type: Object }
+  course: { type: Object },
 };
 
 //Instance of Schema
-const ReportSchema = new Schema( ReportSchemaObject,
+const BehaviorSchema = new Schema( BehaviorSchemaObject,
     {timestamps: true}
 );
 
-module.exports = mongoose.model('Report', ReportSchema);
+module.exports = mongoose.model('Behavior', BehaviorSchema);

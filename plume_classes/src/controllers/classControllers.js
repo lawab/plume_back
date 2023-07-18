@@ -42,19 +42,20 @@ const createClasse = async (req, res) =>{
 
 //Update Classe in Data Base
 const updateClasse = async (req, res) =>{
-    const body = JSON.parse(req.headers.body);
-    if(req.file){
-        body.image = "/datas/" + req.file.filename;
-        if (body.planning) {
-            console.log(body.planning)
+    
+    try {
+        const body = JSON.parse(req.headers.body);
+        if (req.file) {
+          body.image = "/datas/" + req.file.filename;
+          if (body.planning) {
+            console.log(body.planning);
             body.planning = "/datas/" + req.file.filename;
+          }
+          if (body.time_table) {
+            console.log(body.time_table);
+            body.time_table = "/datas/" + req.file.filename;
+          }
         }
-        if (body.time_table) {
-            console.log(body.time_table)
-          body.time_table = "/datas/" + req.file.filename;
-        }
-    }
-    try{
         const user = await api_consumer.getUserById(body.creator, req.token);
         if(!user){
             res.status(401).json({"message" : "User not authenticated!!!"});

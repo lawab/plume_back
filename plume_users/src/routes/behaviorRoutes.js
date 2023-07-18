@@ -1,42 +1,42 @@
 const express = require("express");
-const controller = require('../controllers/reportControllers');
+const controller = require('../controllers/behaviorControllers');
 
 const uploadFileService = require('../services/uploadFile');
 const auth = require('../middlewares/authmiddleware');
 const authenfication = require('../controllers/auth/authentification');
 
-var reportRouter = express.Router() ;
+var behaviorRouter = express.Router() ;
 const upload = uploadFileService.uploadMiddleFile();
 
 
 
 //************CREATE CATEGORY********************
-reportRouter.post('/create', auth.authmiddleware, controller.createReport);
+behaviorRouter.post('/create', auth.authmiddleware, controller.createBehavior);
 //**************************************** *//  
 
 //************UPDATE CATEGORY********************
-reportRouter.patch('/update/:reportId', auth.authmiddleware, controller.updateReport);
+behaviorRouter.patch('/update/:behaviorId', auth.authmiddleware, controller.updateBehavior);
 //**************************************** *// 
 
 //************ADD CLASS TO USER********************
-reportRouter.patch('/addClass/:reportId', controller.addClassToReport);
+behaviorRouter.patch('/addClass/:behaviorId', controller.addClassToBehavior);
 //**************************************** *// 
 
 //************ASSIGN PARENT TO STUDENT********************
-reportRouter.patch('/assignParent/:parentId/:studetId', controller.assignParentToStudent);
+behaviorRouter.patch('/assignParent/:parentId/:studetId', controller.assignParentToStudent);
 //**************************************** *// 
 
 //************DELETE USER********************
-reportRouter.patch('/delete/:reportId', auth.authmiddleware, controller.deleteReport);
+behaviorRouter.patch('/delete/:behaviorId', auth.authmiddleware, controller.deleteBehavior);
 //**************************************** *// 
 
 //************GET A CATEGORY********************
-reportRouter.get('/fetch/one/:reportId', auth.authmiddleware, controller.getReport);
+behaviorRouter.get('/fetch/one/:behaviorId', auth.authmiddleware, controller.getBehavior);
 //**************************************** *// 
 
 //************GET ALL CATEGORIES********************
-reportRouter.get("/fetch/all", auth.authmiddleware, controller.getReports);
+behaviorRouter.get("/fetch/all", auth.authmiddleware, controller.getBehaviors);
 //**************************************** *//
 
 //Export route to be used on another place
-module.exports = reportRouter;
+module.exports = behaviorRouter;

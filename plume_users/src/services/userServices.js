@@ -14,7 +14,10 @@ const createUser = async (userBody) =>{
 const getUsers = async () =>{
 
     const users = await User.find()
-            .populate({path: 'children'});
+        .populate({ path: "children" })
+        .populate({ path: "behaviors" })
+        .populate({ path: "reports" });
+
     console.log(users);
     return users;
     // .then((err, data) =>{
@@ -36,6 +39,34 @@ const updateUserById = async (userId, userBody) =>{
     );
     return user;
 }
+
+//Add Behavior to User by Id
+const addBehaviorById = async (userId, userBody) =>{
+
+    const user = await User.findById(userId)
+    if (user.behaviors) {
+        user.behaviors.push(userBody);
+    }
+    else { 
+        user.behaviors = [userBody]
+    }
+    user.behavior = true
+    user.save()
+    return user;
+}
+
+//Add Report to User by Id
+const addReportById = async (userId, userBody) => {
+  const user = await User.findById(userId);
+  if (user.reports) {
+    user.reports.push(userBody);
+  } else {
+    user.reports = [userBody];
+  }
+  user.report = true;
+  user.save();
+  return user;
+};
 
 //Assign Student to Parents by Id
 const assignParentToStudentById = async (parentId, studentId) =>{
@@ -130,14 +161,15 @@ const unAssignByUserIdByCourseId = async(userId, courseId) => {
 
 
 
-module.exports ={
-
-    createUser,
-    getUsers,
-    updateUserById,
-    getUserById,
-    deleteUserById,
-    addClassToUserById,
-    assignParentToStudentById,
-    removeClassToUserById
-}
+module.exports = {
+  createUser,
+  getUsers,
+  updateUserById,
+  getUserById,
+  deleteUserById,
+  addClassToUserById,
+  assignParentToStudentById,
+  removeClassToUserById,
+  addBehaviorById,
+  addReportById,
+};

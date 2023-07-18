@@ -1,7 +1,6 @@
 
 const path = require('path');
-const Report = require('../models/reports');
-
+const Report = require('../models/report');
 
 //Create Report
 const createReport = async (reportBody) =>{

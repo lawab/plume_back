@@ -167,25 +167,25 @@ const getCourseUser = async (req, res) =>{
         console.log(user.data)
         if(user.data.class){
             const classeId = user.data.class.body._id
-            console.log("THE COUUUUURSSESS####222222: ", classeId)
+            //console.log("THE COUUUUURSSESS####222222: ", classeId)
             const courses = await courseService.getCourses()
-            console.log("THE COUUUUURSSESS####3333: ", classeId)
+            //console.log("THE COUUUUURSSESS####3333: ", classeId)
             if(courses.length != 0){
                 
-                console.log("THE COUUUUURSSESS####4444: ", classeId) 
+                //console.log("THE COUUUUURSSESS####4444: ", classeId) 
                 
                 courses.map((item) =>{
                     const course = item
                     
                     if(course.classes){
-                        console.log("THE COUUUUURSSESS####555: ", classeId) 
+                        //console.log("THE COUUUUURSSESS####555: ", classeId) 
                         console.log("THE COUUUUURSSESS####555: ", classeId)
-                        console.log(course)
+                        //console.log(course)
                         course.classes.map((item) => {
                             console.log("CLASSE########## ")
                             if(item.classe == classeId){
-                                console.log("THE COUUUUURSSESS####: ")
-                                console.log(userCourses)
+                                //console.log("THE COUUUUURSSESS####: ")
+                                console.log("ITEM*******")
                                 userCourses.push(course)
                             }
                         })

@@ -8,6 +8,8 @@ const connection = require("./db");
 
 //import routes
 const userRouter = require("./src/routes/userRoutes");
+const behaviorRouter = require('./src/routes/behaviorRoutes')
+const reporterRouter = require("./src/routes/reportRoutes");
 
 //bodyParser
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -25,6 +27,8 @@ app.use(cors());
 
 // All router app
 app.use("/api/users", userRouter);
+app.use("/api/behaviors", behaviorRouter);
+app.use("/api/reports", reporterRouter);
 
 //Public files
 app.use(express.static(path.join(__dirname, "../public")));

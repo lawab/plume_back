@@ -1,19 +1,19 @@
 const {default: axios} = require('axios');
 const config = require('../configs/config');
 
-const getUserById = async (userId, token) =>{
-    console.log("*******USER ID: "+userId);
-    console.log("*******URL: "+config.url_user+`/fetch/one/${userId}`);
+const getCourseById = async (courseId, token) =>{
+    console.log("*******COURSE ID: "+courseId);
+    console.log("*******URL: "+config.url_course+`/fetch/one/${courseId}`);
     try{
-        const user = await axios.get(config.url_user+`/fetch/one/${userId}`,
+        const course = await axios.get(config.url_course+`/fetch/one/${courseId}`,
                         {
                             headers: {
                                 authorization: `Bearer ${token}`
                             }
                         });
-        console.log("USERRRR: ")
-        console.log(user.data);
-        return user;
+        console.log("COURSEEE: ");
+        console.log(course.data);
+        return course;
     }
     catch(err ){
         console.log(err.data);
@@ -22,6 +22,6 @@ const getUserById = async (userId, token) =>{
     
 }
 
-module.exports ={
-    getUserById
-}
+module.exports = {
+  getCourseById
+};

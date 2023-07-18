@@ -1,7 +1,7 @@
 
 const reportService = require('../services/reportServices');
+const userService = require("../services/userServices");
 const api_consumer = require('../services/api_consumer');
-const Report = require("../models/reports");
 const User = require('../models/users')
 const cryptoJS = require("crypto-js");
 
@@ -9,21 +9,44 @@ const cryptoJS = require("crypto-js");
 
 //Create Report in Data Base
 const createReport = async (req, res) =>{
+  try {
     const body = JSON.parse(req.headers.body);
     console.log(body);
-    try{
-        const user = await User.findById(body.creator); //api_consumer.getReportById(body.report_id, req.token);
-        body.creator = user_id;
-        console.log(body);
-        
-        const reportCreated = await reportService.createReport(body);
-        res.status(200).json({"message" : "Report created successfuly!!!"});
-
+    const user = await User.findById(body.creator); //api_consumer.getReportById(body.report_id, req.token);
+    if (!user) {
+      console.log("Creator is not found!!!");
+      return res.status(401).json({ message: "Creator is not found!!!" });
     }
-    catch(error){
-        res.status(500).json({"message" : "Error encounterd creating Report!!!"});
-    };
-
+    const student = await User.findById(body.studentId); //api_consumer.getReportById(body.report_id, req.token);
+    if (!student) {
+      console.log("Student is not found!!!");
+      return res.status(401).json({ message: "Student is not found!!!" });
+    }
+    // const course = await api_consumer.getCourseById(body.courseId, req.token);
+    // if (!course?.data) {
+    //   console.log("Course is not found!!!");
+    //   return res.status(401).json({ message: "Course is not found!!!" });
+    // }
+    // const courseFound = {
+    //   _id: course.data._id,
+    //   title: course.data.title,
+    //   description: course.data.description,
+    //   image: course.data.image,
+    // };
+    //body.course = courseFound;
+    const reportCreated = await reportService.createReport(body);
+    console.log("********reportCreated:");
+    console.log(reportCreated);
+    const userReport = await userService.addReportById(
+      body.studentId,
+      reportCreated
+    );
+    console.log("********userReport:");
+    console.log(userReport);
+    res.status(200).json({ message: "Report created successfuly!!!" });
+  } catch (error) {
+    res.status(500).json({ message: "Error encounterd creating Report!!!" });
+  }
 }
 
 //Update Report in Data Base
