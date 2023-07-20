@@ -12,6 +12,7 @@ const createBehavior = async (req, res) =>{
     
     try {
         const body = JSON.parse(req.headers.body);
+        console.log("behavior");
         console.log(body);
         const user = await User.findById(body.creator); //api_consumer.getBehaviorById(body.behavior_id, req.token);
         if (!user) {
@@ -24,10 +25,12 @@ const createBehavior = async (req, res) =>{
           return res.status(401).json({ "message": "Student is not found!!!" });
         }
         const course = await api_consumer.getCourseById(body.courseId, req.token)
-        if (!course?.data) {
-          console.log("Course is not found!!!");  
-          return res.status(401).json({ message: "Course is not found!!!" });
-        }
+        if (user.role == "SUDO" || user.role == "ADMIN"){
+          if (!course?.data) {
+            console.log("Course is not found!!!");
+            return res.status(401).json({ message: "Course is not found!!!" });
+          }
+        }    
         const courseFound = {
           _id: course.data._id,
           title: course.data.title,

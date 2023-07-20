@@ -2,20 +2,19 @@ const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
 
-//Behavior Schema Object
-const BehaviorSchemaObject = {
+//Document Schema Object
+const DocumentSchemaObject = {
   creator: { type: Schema.Types.ObjectId, ref: "User" },
-  gravity: { type: String },
+  studentId: { type: Schema.Types.ObjectId, ref: "User" },
   date: { type: Date, default: Date.now },
-  motif: { type: String },
+  document: { type: String },
   validated: { type: Boolean, default: false },
-  course: { type: Object },
   deletedAt: { type: Date, default: null },
 };
 
 //Instance of Schema
-const BehaviorSchema = new Schema( BehaviorSchemaObject,
+const DocumentSchema = new Schema( DocumentSchemaObject,
     {timestamps: true}
 );
 
-module.exports = mongoose.model('Behavior', BehaviorSchema);
+module.exports = mongoose.model('Document', DocumentSchema);

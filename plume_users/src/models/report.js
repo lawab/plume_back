@@ -8,7 +8,8 @@ const ReportSchemaObject = {
   date: { type: Date, default: Date.now },
   report: { type: String},
   validated: { type: Boolean, default: false },
-  course: { type: Object }
+  course: { type: Object },
+  deletedAt: { type: Date, default: null }
 };
 
 //Instance of Schema

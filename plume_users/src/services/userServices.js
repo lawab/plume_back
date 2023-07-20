@@ -85,8 +85,10 @@ const assignParentToStudentById = async (parentId, studentId) =>{
 const getUserById = async (userId) =>{
 
     const user = await User.findById(userId)
-            .populate({path: 'children'})
-            .populate({path: 'parentOfStudent'});
+      .populate({ path: "children" })
+      .populate({ path: "parentOfStudent" })
+      .populate({ path: "behaviors" })
+      .populate({ path: "reports" });
             console.log(user)
     return user;
 }
