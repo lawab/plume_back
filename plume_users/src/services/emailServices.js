@@ -78,12 +78,12 @@ const sendCredentialToUser = async (receiverId, password) =>{
     
 }
 
-const recorverPassword = async (email) =>{
-    const receiver = await User.findOne({email: email});
-    if(!receiver){
-        throw new ApiError(httpStatus.NOT_FOUND, 'Email not found');
-    }
-    else{
+const recorverPassword = async (receiver) =>{
+    //const receiver = await User.findOne({email: email});
+    // if(!receiver){
+    //     throw new ApiError(httpStatus.NOT_FOUND, 'Email not found');
+    // }
+    
 
         const hashedPass = cryptoJS.AES.decrypt(
             receiver.password,
@@ -98,7 +98,7 @@ const recorverPassword = async (email) =>{
                 pass: process.env.APP_PASS
             }
         });
-        const subject = 'Mot de passe sur MCF';
+        const subject = 'Mot de passe sur PLUME';
         let mailOptions = {
             from: process.env.ADMIN_MAIL,
             to: receiver.email,
@@ -106,8 +106,8 @@ const recorverPassword = async (email) =>{
             //text: emailBody
             html: `<p>Hello, j'espère que tu vas bien !</br>
     
-            Nous avons tous très hâte que tu continues ta formation 🙂
-            Nous te retrouvons sur le site de WAB-LMS (https://wab-lms.com). 
+            Nous avons tous très hâte que tu continues ta navigation 🙂
+            Nous te retrouvons sur le site de PLUME (https://plume.com). 
             Pour te connecter, utilise les codes suivants :<p>
             <p>Identifiant :<strong>${receiver.email}</strong></p><p>Mot de passe :<strong>${password}</strong></p>
             <p>Tu pourras alors accéder à l'intégralité du contenu de ta formation.
@@ -128,7 +128,7 @@ const recorverPassword = async (email) =>{
                 return info;
             }
         });
-    }
+    
     
     
 }

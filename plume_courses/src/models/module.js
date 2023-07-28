@@ -32,6 +32,7 @@ const ModuleSchemaObject = {
         ],
         required: true
     },
+    content: {type: String},
     homeworks: {type: [ {type: Schema.ObjectId, ref: 'Homework'}]},
     creator: {type: Object},
     section: {type: Schema.ObjectId, ref: 'Section'},

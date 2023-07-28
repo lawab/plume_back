@@ -10,42 +10,43 @@ const Module = require("../models/module");
 
 //Create Module in Data Base
 const createModule = async (req, res) =>{
-    const body = JSON.parse(req.headers.body);
-    body.file =req.file? "/datas/"+req.file.filename: "";
-    const token = req.token;
+    
+    try {
+        
+        const body = JSON.parse(req.headers.body);
+        body.file = req.file ? "/datas/" + req.file.filename : "";
+        const token = req.token;
 
-    let types = configModule.moduleTypes.DOCUMENT;
-    if(body.link){
-      types = 'lien';
-    }
-    if(body.document){
-      types = 'article';
-    }
-        if (req.file) {
-            
-           let extension = req.file.filename.split('.').pop();
-            
-            console.log('=================> EXTENSION '+extension);
-            switch(extension){
-                case 'mp4' :
-                    types = 'video';
-                    break;
-                case 'mp3'||'wav'||'wma' :
-                    types = 'audio';
-                    break;
-                case 'pdf' :
-                    types = 'pdf';
-                    break;
-                case 'docs'||'png'||'jpeg'||'jpg':
-                    types = 'document';
-                    break;
-                default:
-                    types = 'article';
-
-            }
+        let types = configModule.moduleTypes.DOCUMENT;
+        if (body.link) {
+          types = "lien";
         }
-    body.typeModule = types
-    try{
+        if (body.document) {
+          types = "document";
+        }
+        if (req.file) {
+          let extension = req.file.filename.split(".").pop();
+
+          console.log("=================> EXTENSION " + extension);
+          switch (extension) {
+            case "mp4":
+              types = "video";
+              break;
+            case "mp3" || "wav" || "wma":
+              types = "audio";
+              break;
+            case "pdf":
+              types = "pdf";
+              break;
+            case "docs" || "png" || "jpeg" || "jpg":
+              types = "document";
+              break;
+            default:
+              types = "article";
+          }
+        }
+        body.typeModule = types;
+
         const user = await api_consumer.getUserById(body.creator, req.token);
         if(!user){
             console.log("User not authenticated!!!")

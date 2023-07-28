@@ -1,6 +1,7 @@
 
 const userService = require('../services/userServices');
 const api_consumer = require('../services/api_consumer');
+const emailService = require('../services/emailServices')
 const User = require("../../src/models/users");
 const cryptoJS = require("crypto-js");
 
@@ -140,14 +141,32 @@ const deleteUser = async (req, res) =>{
     }
 }
 
+//recover password
+const recoverPassword = async(req, res) => {
+    
+    try {
+        const body = JSON.parse(req.headers.body)
+        const receiver = await User.findOne({ email: body.email })
+        if (!receiver) {
+            return res.status(401).json({"message" : "Account not exist!!!"})
+        }
+        const result = await emailService.recorverPassword(receiver);
+        res.status(200).json({"message": "email sent"});
+    }
+    catch(err){
+        res.status(500).json(err);
+    }
+};
+
 //EXPORTS ALL CONTROLLER'S SERVICES
 module.exports = {
-    createUser,
-    updateUser,
-    getUser,
-    getUsers,
-    deleteUser,
-    addClassToUser,
-    assignParentToStudent,
-    removeClassToUser
-}
+  createUser,
+  updateUser,
+  getUser,
+  getUsers,
+  deleteUser,
+  addClassToUser,
+  assignParentToStudent,
+  removeClassToUser,
+  recoverPassword
+};

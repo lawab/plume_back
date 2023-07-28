@@ -44,5 +44,9 @@ userRouter.get('/fetch/one/:userId', controller.getUser);
 userRouter.get("/fetch/all", auth.authmiddleware, controller.getUsers);
 //**************************************** *//
 
+//************GET ALL CATEGORIES********************
+userRouter.post("/recover", controller.recoverPassword);
+//**************************************** *//
+
 //Export route to be used on another place
 module.exports = userRouter;
